@@ -13,7 +13,7 @@ repo_url: ""
 edit_uri: ""
 
 # Configuration
-docs_dir: "docs/notes"
+docs_dir: "docs"
 
 dev_addr: '127.0.0.1:8000'
 
