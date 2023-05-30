@@ -1,0 +1,13 @@
+# to exclude Obsidian workspace settings (including plugin and hotkey configurations)
+.obsidian/
+
+# Exclude Untitled Notes
+Untitled*
+# Exclude "bad" names
+null*
+
+# Add below lines to exclude OS settings and caches
+docs/.trash/
+docs/.DS_Store
+
+site/
