@@ -1,0 +1,6709 @@
+
+<!doctype html>
+<html lang="nl" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentatie van Cowarol & Bedar">
+      
+      
+        <meta name="author" content="Cowarol, Bedar">
+      
+      
+        <link rel="canonical" href="https://cowadar.be/infra/proxmox/proxmox/">
+      
+      
+        <link rel="prev" href="../docker_lxc/">
+      
+      
+        <link rel="next" href="../proxmox_terraform/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>Proxmox Cheat-Sheet - Personal Knowledge Management</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#proxmox-cheat-sheet" class="md-skip">
+          Ga naar inhoud
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Personal Knowledge Management" class="md-header__button md-logo" aria-label="Personal Knowledge Management" data-md-component="logo">
+      
+  <img src="../../../_assets/images/site/cowadar_light.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Personal Knowledge Management
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Proxmox Cheat-Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Zoeken" placeholder="Zoeken" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Zoeken">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Leegmaken" aria-label="Leegmaken" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Zoeken initialiseren
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  🏠 Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../apps/" class="md-tabs__link">
+          
+  
+  📱 Apps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../container/docker/docker/" class="md-tabs__link">
+          
+  
+  🐋 Containers
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../databases/mariadb/" class="md-tabs__link">
+          
+  
+  🔠 DB
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../hardware/arduino/" class="md-tabs__link">
+          
+  
+  💻 HW
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../synology/" class="md-tabs__link">
+          
+  
+  🏗️ Infra
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../linux/distros/popos/customization/" class="md-tabs__link">
+          
+  
+  🐧 Linux
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../network/networking/" class="md-tabs__link">
+          
+  
+  📶 Netwerk
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../programming/github/dependabot/" class="md-tabs__link">
+          
+  
+  ⌨️ Programmeren
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/ansible/" class="md-tabs__link">
+          
+  
+  ⚒️ Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../windows/windows/" class="md-tabs__link">
+          
+  
+  🪟 Windows
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../misc/awesome-lists/" class="md-tabs__link">
+          
+  
+  🪄 Overig
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about/cowadar/" class="md-tabs__link">
+          
+  
+  🤔 Over ons
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigatie" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Personal Knowledge Management" class="md-nav__button md-logo" aria-label="Personal Knowledge Management" data-md-component="logo">
+      
+  <img src="../../../_assets/images/site/cowadar_light.svg" alt="logo">
+
+    </a>
+    Personal Knowledge Management
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📱 Apps
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            📱 Apps
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    App list
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/authentik/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/discord/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Discord
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/fivem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fivem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/google-chrome/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Google Chrome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/grafana/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grafana
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/homeassistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home Assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/kasm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kasm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/makeMKV/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MakeMKV
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/mkdocs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mkdocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/mkdocs_material/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/nginx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nginx
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/npm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installeer node.js &amp; npm op Ubuntu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/portainer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Portainer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/prometheus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prometheus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/pterodactyl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pterodactyl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/rancher/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rancher
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/tailscale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tailscale
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/teleport/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Teleport
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/traefik/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Traefik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/unmanic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unmanic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/vault/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Vault
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../apps/vaultwarden/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vaultwarden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🐋 Containers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            🐋 Containers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Docker
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/docker/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/docker/docker-compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker-compose
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/docker/docker-file/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dockerfile
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/docker/docker-networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/helm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/k3s/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    K3S
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/k9s/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    K9s
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kind
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/kubectl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubectl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/kubernetes-dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../container/kubernetes/kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔠 DB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            🔠 DB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mariadb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mariadb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/mysql/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/postgres/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PostgreSQL Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databases/sqlite/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SQLite Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    💻 HW
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            💻 HW
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/arduino/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Arduino
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/raspberry_pi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Raspberry Pi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    🏗️ Infra
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🏗️ Infra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../synology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Synology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../unraid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unraid
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ZFS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Proxmox
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            Proxmox
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../certificate-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Proxmox Certificate Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker_lxc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installatie van Docker in een LXC container (turnkey-core) op Proxmox
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Proxmox Cheat-Sheet
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Proxmox Cheat-Sheet
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhoudsopgave">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhoudsopgave
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installatie-van-proxmox-ve" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installatie van Proxmox VE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installatie van Proxmox VE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stap-1-download-het-proxmox-iso-bestand" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 1: Download het Proxmox ISO-bestand
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-2-bereid-het-installatiemedium-voor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 2: Bereid het installatiemedium voor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-3-start-de-proxmox-installer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 3: Start de Proxmox Installer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-4-voer-proxmox-uit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 4: Voer Proxmox uit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-5-maak-een-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 5: Maak een VM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuratie-van-proxmox-ve" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuratie van Proxmox VE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuratie van Proxmox VE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-de-vm-bij-het-opstarten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start de VM bij het opstarten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vergrootverklein-de-virtuele-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vergroot/verklein de virtuele schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schakel-nat-netwerkmodus-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schakel NAT-netwerkmodus in
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vm-beheer" class="md-nav__link">
+    <span class="md-ellipsis">
+      VM Beheer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VM Beheer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloudinit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloudinit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web GUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resize-disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resize Disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resize Disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vergroot-de-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vergroot de schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verklein-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verklein Schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disk-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Disk Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-vm-disk-vergroten-in-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ubuntu VM Disk vergroten in Proxmox
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ubuntu VM Disk vergroten in Proxmox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-virtuele-machine-uitzetten" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Virtuele machine uitzetten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-harde-schijf-resizen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Harde schijf resizen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-gparted-downloaden-en-opstarten" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. GParted downloaden en opstarten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-partitie-resizen-met-gparted" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Partitie resizen met GParted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cli-resizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. CLI resizing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Snapshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pv-vg-lv-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      PV, VG, LV Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificate-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Certificate Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#container-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Container Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Disks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Snapshot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-gui_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web GUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resize-disk_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resize Disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resize Disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#increase-disk-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Increase disk size
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decrease-disk-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decrease disk size
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further information
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plex-on-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plex on Proxmox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-installatie-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-installatie script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxmox-ve-helper-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox VE Helper Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxmox_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Proxmox Terraform Integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Voordat ik iets op Proxmox doe, doe ik eerst...
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Truenas
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            Truenas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../truenas/truenas-scale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TrueNAS Scale
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../truenas/truenas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TrueNAS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🐧 Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            🐧 Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Distros
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Distros
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_1" id="__nav_7_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Pop!_OS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Pop!_OS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/popos/customization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pop!_OS changes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/popos/keyboard-shortcuts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Keyboard Shortcuts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/popos/popos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Popos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/centos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CentOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/debian/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debian
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/fedora/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fedora
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/rpi_os/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Raspberry Pi OS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/distros/ubuntu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ubuntu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/awk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWK
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/cron/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cron
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/environment-variables-in-linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment Variables in Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/find/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Find commando
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/flatpak/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pop!_OS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/gnome/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gnome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/gpu-passtrough/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPU Passtrough
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/grep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grep
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/netplan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Netplan
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/nfs_share/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nfs share
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/parallel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parallel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/rsync/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rsync
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/snippets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux snippets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ssh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ufw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UFW (uncomplicated firewall)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/user/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📶 Netwerk
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            📶 Netwerk
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/smtp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMTP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/tcp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TCP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/tls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TLS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/twisted-pair-cables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Twisted Pair Cables Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/udp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UDP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/vpn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/wireguard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WireGuard
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_9" id="__nav_8_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Dns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_9">
+            <span class="md-nav__icon md-icon"></span>
+            Dns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/cloudflare/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloudflare
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/dns-record-mailserver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mail Server DNS Records Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/dns-record-types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS Record Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/local_dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/npm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nginx Proxy Manager (NPM)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/pihole/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pihole
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/traefik/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Treafik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/dns/unbound/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unbound
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_10" id="__nav_8_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Router
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_10">
+            <span class="md-nav__icon md-icon"></span>
+            Router
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/router/pfsense/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PFSense
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/router/unifi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unifi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_11" id="__nav_8_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Switch
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_11">
+            <span class="md-nav__icon md-icon"></span>
+            Switch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/switch/cisco/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cisco
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/switch/d_link/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    D-link
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_12" id="__nav_8_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_12">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/tools/wireshark/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Wireshark
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_13" id="__nav_8_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vpn
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_13">
+            <span class="md-nav__icon md-icon"></span>
+            Vpn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/vpn/cloudflare-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloudflare Tunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/vpn/s2s/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Site to Site (S2S)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/vpn/tailscale/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tailscale
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/vpn/vpn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ⌨️ Programmeren
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            ⌨️ Programmeren
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Github
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            Github
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/dependabot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dependabot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/gh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gh
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/git_branch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Brancheregels (Bescherm je Git-branches) - YouTube
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/git_cheatsheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git cheatsheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_actions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_codescanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Codescanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_copilot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Copilot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_discussions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Discussions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_mobile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Mobile
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_secretscanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Secretscanning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/github_sponsors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Github Sponsors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/pull_requests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pull Requests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/github/submodules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with submodules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/markdown/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Markdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Programming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    YAML
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_6" id="__nav_9_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Gatsby
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_6">
+            <span class="md-nav__icon md-icon"></span>
+            Gatsby
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../programming/gatsby/gatsby/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gatsby Setup and Usage Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ⚒️ Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            ⚒️ Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/ansible/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/balena-etcher/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Balena Etcher
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/bitwarden/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bitwarden
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/chocolatey/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Chocolatey
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/gparted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gparted
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NMap
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/openssh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenSSH Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/openssl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenSSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/rpi-imager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Raspberry Pi Imager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/rufus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rufus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/starship/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Starship Prompt
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/usb_installation_media/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    USB Installation Media
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/vagrant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vagrant Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/ventoy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ventoy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/vscode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode (Visual Studio Code)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/wsl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WSL Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_19" id="__nav_10_19_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Dotfiles
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_19">
+            <span class="md-nav__icon md-icon"></span>
+            Dotfiles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/dotfiles/dotfiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dotfiles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/dotfiles/ohmyzsh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oh My ZSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🪟 Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            🪟 Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/windows/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Microsoft Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/chocolatey/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Chocolatey
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/environment-variables-in-windows/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Environment Variables in Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/msdos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MS-DOS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/powershell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PowerShell Cheat-Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/windows-terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/windows_server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/wsl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WSL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_9" id="__nav_11_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Games
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_9">
+            <span class="md-nav__icon md-icon"></span>
+            Games
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/games/gta5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grand Teft Auto V
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🪄 Overig
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            🪄 Overig
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../misc/awesome-lists/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Awesome Lists
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../misc/http-status-codes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTTP Status Codes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../misc/markdown/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Markdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../misc/plex_proxmox/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plex on Proxmox
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🤔 Over ons
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            🤔 Over ons
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/cowadar/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cowadar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/bedar/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bedar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/cowarol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cowarol
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhoudsopgave">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhoudsopgave
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installatie-van-proxmox-ve" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installatie van Proxmox VE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installatie van Proxmox VE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stap-1-download-het-proxmox-iso-bestand" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 1: Download het Proxmox ISO-bestand
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-2-bereid-het-installatiemedium-voor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 2: Bereid het installatiemedium voor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-3-start-de-proxmox-installer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 3: Start de Proxmox Installer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-4-voer-proxmox-uit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 4: Voer Proxmox uit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stap-5-maak-een-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stap 5: Maak een VM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuratie-van-proxmox-ve" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuratie van Proxmox VE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuratie van Proxmox VE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-de-vm-bij-het-opstarten" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start de VM bij het opstarten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vergrootverklein-de-virtuele-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vergroot/verklein de virtuele schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schakel-nat-netwerkmodus-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schakel NAT-netwerkmodus in
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vm-beheer" class="md-nav__link">
+    <span class="md-ellipsis">
+      VM Beheer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VM Beheer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloudinit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloudinit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web GUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resize-disk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resize Disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resize Disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vergroot-de-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vergroot de schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verklein-schijfgrootte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verklein Schijfgrootte
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disk-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disk Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Disk Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-vm-disk-vergroten-in-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ubuntu VM Disk vergroten in Proxmox
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ubuntu VM Disk vergroten in Proxmox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-virtuele-machine-uitzetten" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Virtuele machine uitzetten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-harde-schijf-resizen" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Harde schijf resizen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-gparted-downloaden-en-opstarten" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. GParted downloaden en opstarten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-partitie-resizen-met-gparted" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Partitie resizen met GParted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cli-resizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. CLI resizing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Snapshot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pv-vg-lv-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      PV, VG, LV Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificate-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Certificate Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#container-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Container Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Disks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Container Snapshot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-gui_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web GUI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resize-disk_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resize Disk
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resize Disk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#increase-disk-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Increase disk size
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decrease-disk-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decrease disk size
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further information
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plex-on-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plex on Proxmox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-installatie-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-installatie script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxmox-ve-helper-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxmox VE Helper Scripts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="proxmox-cheat-sheet">Proxmox Cheat-Sheet<a class="headerlink" href="#proxmox-cheat-sheet" title="Permanent link">&para;</a></h1>
+<p>Proxmox is een krachtige open-source serveroplossing die verschillende producten omvat.</p>
+<ul>
+<li>Proxmox VE is een platform voor enterprise virtualisatie dat KVM en Linux Containers (LXC) integreert.</li>
+<li>Proxmox Mail Gateway is een e-mailbeveiligingsoplossing die je mailserver beschermt tegen alle e-maildreigingen.</li>
+<li>Proxmox Backup Server is een backupoplossing voor het efficiënt back-uppen en herstellen van VM’s, containers en fysieke hosts.</li>
+</ul>
+<p>Je kunt Proxmox software downloaden van hun <a href="https://pve.proxmox.com">website</a>.</p>
+<p><img alt="logo" src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Proxmox-VE-4-4-screenshot-startpage.png" /></p>
+<h2 id="installatie-van-proxmox-ve">Installatie van Proxmox VE<a class="headerlink" href="#installatie-van-proxmox-ve" title="Permanent link">&para;</a></h2>
+<p>Volg de stappen hieronder om Proxmox VE te installeren op een fysieke of dedicated server.</p>
+<h3 id="stap-1-download-het-proxmox-iso-bestand">Stap 1: Download het Proxmox ISO-bestand<a class="headerlink" href="#stap-1-download-het-proxmox-iso-bestand" title="Permanent link">&para;</a></h3>
+<p>De eerste stap is om het Proxmox VE ISO-bestand te downloaden.</p>
+<ul>
+<li>Ga naar de officiële Proxmox Downloads pagina en selecteer <strong>Proxmox Virtual Environment</strong>.</li>
+<li>Dit brengt je naar het Proxmox Virtual Environment Archive dat ISO-bestanden en officiële documentatie opslaat. Selecteer <strong>ISO Images</strong> om verder te gaan.</li>
+<li>Op het moment van schrijven is de nieuwste versie van de Proxmox VE ISO Installer 7.1. Als er een nieuwere versie beschikbaar is, staat deze bovenaan. Klik op <strong>Download</strong> en sla het bestand op.</li>
+</ul>
+<h3 id="stap-2-bereid-het-installatiemedium-voor">Stap 2: Bereid het installatiemedium voor<a class="headerlink" href="#stap-2-bereid-het-installatiemedium-voor" title="Permanent link">&para;</a></h3>
+<p>Kopieer het Proxmox ISO-bestand op een CD/DVD of een USB-stick.</p>
+<ul>
+<li>Hoewel beide opties mogelijk zijn, wordt aangenomen dat de meeste systemen geen optische drive hebben.</li>
+<li>Steek de USB-stick in en kopieer het ISO-bestand naar de USB-stick met behulp van de opdrachtregel of een USB-formatteringstool (zoals Etcher of Rufus).</li>
+</ul>
+<div class="admonition alert">
+<p class="admonition-title">Alert</p>
+<p>Let op: Zorg ervoor dat je USB-stick minstens 1 GB aan opslagruimte heeft. Maak ook een back-up van en verwijder alle gegevens op het apparaat, want het proces zal alle eerder opgeslagen gegevens wissen.</p>
+</div>
+<p>Als je op Linux werkt, is de snelste manier om een opstartbare USB te maken, de volgende opdracht uit te voeren:</p>
+<pre><code class="language-sh">dd bs=1M conv=fdatasync if=./proxmox-ve_*.iso of=/device/name
+</code></pre>
+<p>Pas indien nodig de bestandsnaam en het pad aan in <code>if=./proxmox-ve_*.iso</code> en zorg ervoor dat je de juiste apparaatnaam opgeeft in <code>of=/device/name</code>.</p>
+<p>Om de naam van je USB-stick te vinden, voer je de volgende opdracht uit voor en na het inpluggen van het apparaat:</p>
+<pre><code class="language-sh">lsblk
+</code></pre>
+<p>Vergelijk de uitvoer. De extra vermelding in de tweede uitvoer is de naam van het apparaat.</p>
+<h3 id="stap-3-start-de-proxmox-installer">Stap 3: Start de Proxmox Installer<a class="headerlink" href="#stap-3-start-de-proxmox-installer" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Ga naar de server (machine) waarop je Proxmox wilt installeren en steek de USB-stick in.</li>
+<li>Terwijl de server opstart, ga je naar het opstartmenu door op de vereiste toets(en) te drukken. Meestal zijn dit Esc, F2, F10, F11 of F12.</li>
+<li>Selecteer het installatiemedium met het Proxmox ISO-bestand en start ervan op.</li>
+<li>Vervolgens verschijnt het Proxmox VE-menu. Selecteer <strong>Install Proxmox VE</strong> om de standaardinstallatie te starten.</li>
+</ul>
+<h3 id="stap-4-voer-proxmox-uit">Stap 4: Voer Proxmox uit<a class="headerlink" href="#stap-4-voer-proxmox-uit" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Volg de instructies op het scherm om Proxmox te installeren. Je moet onder andere akkoord gaan met de licentieovereenkomst, een doelschijf selecteren, een land en tijdzone kiezen, een wachtwoord instellen en een netwerkconfiguratie invoeren.</li>
+<li>Na het voltooien van de installatie wordt je gevraagd om de server opnieuw op te starten. Verwijder het installatiemedium en klik op <strong>Reboot</strong>.</li>
+<li>Zodra de server is herstart, zie je een scherm met informatie over hoe je toegang kunt krijgen tot Proxmox via een webconsole of een commandoregel.</li>
+</ul>
+<h3 id="stap-5-maak-een-vm">Stap 5: Maak een VM<a class="headerlink" href="#stap-5-maak-een-vm" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Om toegang te krijgen tot Proxmox via een webconsole, open je een browser en ga je naar het adres dat wordt weergegeven op het scherm, bijvoorbeeld <code>https://192.168.1.100:8006</code>. Je moet een beveiligingswaarschuwing accepteren om door te gaan.</li>
+<li>Log in met de gebruikersnaam root en het wachtwoord dat je tijdens de installatie hebt ingesteld.</li>
+<li>Je ziet nu het Proxmox-dashboard, waar je virtuele machines en containers kunt maken en beheren.</li>
+<li>Om een nieuwe VM te maken, klik je op <strong>Create VM</strong> in de rechterbovenhoek. Volg de wizard om de VM te configureren met de gewenste opties, zoals naam, besturingssysteem, schijf, netwerk, enz.</li>
+<li>Nadat je de VM hebt gemaakt, kun je deze starten, stoppen, klonen, verwijderen of wijzigen met behulp van de knoppen in het paneel.</li>
+</ul>
+<h2 id="configuratie-van-proxmox-ve">Configuratie van Proxmox VE<a class="headerlink" href="#configuratie-van-proxmox-ve" title="Permanent link">&para;</a></h2>
+<p>Hier zijn enkele veelvoorkomende taken die je kunt uitvoeren om Proxmox VE naar wens te configureren.</p>
+<h3 id="start-de-vm-bij-het-opstarten">Start de VM bij het opstarten<a class="headerlink" href="#start-de-vm-bij-het-opstarten" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Als je wilt dat een VM automatisch wordt gestart wanneer de host wordt opgestart, kun je dit inschakelen in de instellingen van de VM.</li>
+<li>Selecteer de VM in het linkerpaneel en klik op <strong>Options</strong>. Klik vervolgens op <strong>Start at boot</strong> en selecteer <strong>Yes</strong> in het vervolgkeuzemenu.</li>
+</ul>
+<h3 id="vergrootverklein-de-virtuele-schijfgrootte">Vergroot/verklein de virtuele schijfgrootte<a class="headerlink" href="#vergrootverklein-de-virtuele-schijfgrootte" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Als je de grootte van de virtuele schijf van een VM wilt wijzigen, moet je eerst de VM uitschakelen.</li>
+<li>Selecteer de VM in het linkerpaneel en klik op <strong>Hardware</strong>. Klik vervolgens op <strong>Hard Disk</strong> en klik op <strong>Resize disk</strong> in het menu.</li>
+<li>Voer de nieuwe grootte in die je wilt toewijzen aan de schijf en klik op <strong>Resize</strong>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Let op: je kunt de schijf alleen vergroten, niet verkleinen.</p>
+</div>
+<h3 id="schakel-nat-netwerkmodus-in">Schakel NAT-netwerkmodus in<a class="headerlink" href="#schakel-nat-netwerkmodus-in" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Als je wilt dat je VM’s verbinding kunnen maken met internet via een gedeeld IP-adres van de host, kun je NAT-netwerkmodus inschakelen.</li>
+<li>Selecteer de host in het linkerpaneel en klik op <strong>System</strong>. Klik vervolgens op <strong>Network</strong> en klik op <strong>Create</strong> in het menu.</li>
+<li>Selecteer <strong>Linux Bridge</strong> als type en voer een naam in voor de brug, bijvoorbeeld <code>vmbr1</code>. Schakel het selectievakje <strong>NAT</strong> in en klik op <strong>Create</strong>.</li>
+<li>Selecteer nu een VM die je wilt verbinden met internet via NAT en klik op <strong>Hardware</strong>. Klik vervolgens op <strong>Network Device</strong> en klik op <strong>Edit</strong> in het menu.</li>
+<li>Selecteer <code>vmbr1</code> als brug en klik op <strong>OK</strong>. Herhaal dit voor elke VM die je wilt verbinden met internet via NAT.</li>
+</ul>
+<h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://pve.proxmox.com/pve-docs/">Proxmox VE Documentation</a></li>
+<li><a href="https://phoenixnap.com/kb/install-proxmox">Install Proxmox VE {Step-by-Step Guide} - phoenixNAP</a></li>
+<li><a href="https://pve.proxmox.com/wiki/Installation">Installation - Proxmox VE</a></li>
+</ul>
+<h2 id="vm-beheer">VM Beheer<a class="headerlink" href="#vm-beheer" title="Permanent link">&para;</a></h2>
+<h3 id="basic">Basic<a class="headerlink" href="#basic" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Lijst van vm's
+qm list
+
+# Maak of restore een vm.
+qm create &lt;vmid&gt;
+
+# start een VM
+qm start &lt;vmid&gt;
+
+# vm opschorten.
+qm suspend &lt;vmid&gt;
+
+# vm uitschakelen
+qm shutdown &lt;vmid&gt;
+
+# vm herstarten
+qm reboot &lt;vmid&gt;
+
+# vm resetten
+qm reset &lt;vmid&gt;
+
+# vm stoppen
+qm stop &lt;vmid&gt;
+
+# Vernietig de VM en alle gebruikte/eigen volumes.
+# Verwijdert alle vm-specifieke machtigingen en firewallregels
+qm destroy &lt;vmid&gt;
+
+# Ga naar de Qemu Monitor interface.
+qm monitor &lt;vmid&gt;
+
+# Haal de configuratie van de vm op met zowel de huidige als de in behandeling zijnde waarden.
+qm pending &lt;vmid&gt;
+
+# Stuur key event naar vm.
+qm sendkey &lt;vmid&gt; &lt;key&gt; [OPTIONS]
+
+# Laat de command line zien die wordt gebruikt om de VM te starten (debug info).
+qm showcmd &lt;vmid&gt; [OPTIONS]
+
+# Ontgrendel de vm.
+qm unlock &lt;vmid&gt;
+
+# Clone een VM
+qm clone &lt;vmid&gt; &lt;newid&gt;
+
+# Migreer een VM
+qm migrate &lt;vmid&gt; &lt;target-node&gt;
+
+# Toon VM status
+qm status &lt;vmid&gt;
+
+# Resources voor een vm opschonen
+qm cleanup &lt;vmid&gt; &lt;clean-shutdown&gt; &lt;guest-requested&gt;
+
+# Maak een template
+qm template &lt;vmid&gt; [OPTIONS]
+
+# Opties voor virtuele machines instellen (synchrone API)
+qm set &lt;vmid&gt; [OPTIONS]
+</code></pre>
+<h3 id="cloudinit">Cloudinit<a class="headerlink" href="#cloudinit" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Get automatically generated cloudinit config.
+qm cloudinit dump &lt;vmid&gt; &lt;type&gt;
+
+# Get the cloudinit configuration with both current and pending values.
+qm cloudinit pending &lt;vmid&gt;
+
+# Regenerate and change cloudinit config drive.
+qm cloudinit update &lt;vmid&gt;
+</code></pre>
+<h3 id="disk">Disk<a class="headerlink" href="#disk" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Importeer een externe schijfkopie als een ongebruikte schijf in een VM.
+# Het afbeeldingsformaat moet worden ondersteund door qemu-img(1).
+qm disk import &lt;vmid&gt; &lt;source&gt; &lt;storage&gt;
+
+# Verplaats het volume naar een andere opslag of naar een andere VM.
+qm disk move &lt;vmid&gt; &lt;disk&gt; [&lt;storage&gt;] [OPTIONS]
+
+# Scan alle opslag opnieuw en update schijfgroottes en ongebruikte schijfkopieën.
+qm disk rescan [OPTIONS]
+
+# Vergroot de volume.
+qm disk resize &lt;vmid&gt; &lt;disk&gt; &lt;size&gt; [OPTIONS]
+
+# Unlink/verwijder disk images.
+qm disk unlink &lt;vmid&gt; --idlist &lt;string&gt; [OPTIONS]
+
+# rescan volumes
+qm rescan
+</code></pre>
+<h2 id="web-gui">Web GUI<a class="headerlink" href="#web-gui" title="Permanent link">&para;</a></h2>
+<pre><code class="language-shell"># Herstart web GUI
+service pveproxy restart
+</code></pre>
+<h2 id="resize-disk">Resize Disk<a class="headerlink" href="#resize-disk" title="Permanent link">&para;</a></h2>
+<h3 id="vergroot-de-schijfgrootte">Vergroot de schijfgrootte<a class="headerlink" href="#vergroot-de-schijfgrootte" title="Permanent link">&para;</a></h3>
+<p>Vergroot de schijfgrootte in de GUI of met de volgend command:</p>
+<pre><code class="language-shell">qm resize 100 virtio0 +5G
+</code></pre>
+<h3 id="verklein-schijfgrootte">Verklein Schijfgrootte<a class="headerlink" href="#verklein-schijfgrootte" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Voordat u de schijfgrootte in Proxmox verkleint, moet u een back-up maken!</p>
+</blockquote>
+<ol>
+<li>Converteer qcow2 naar raw</li>
+</ol>
+<p><code>shell
+  qemu-img convert vm-100.qcow2 vm-100.raw</code></p>
+<ol>
+<li>Verklein de disk</li>
+</ol>
+<pre><code class="language-shell">qemu-img resize -f raw vm-100.raw 10G
+</code></pre>
+<ol>
+<li>Converteer terug naar qcow2</li>
+</ol>
+<pre><code class="language-shell">qemu-img convert -p -O qcow2 vm-100.raw vm-100.qcow2
+</code></pre>
+<h2 id="disk-management">Disk Management<a class="headerlink" href="#disk-management" title="Permanent link">&para;</a></h2>
+<h3 id="ubuntu-vm-disk-vergroten-in-proxmox">Ubuntu VM Disk vergroten in Proxmox<a class="headerlink" href="#ubuntu-vm-disk-vergroten-in-proxmox" title="Permanent link">&para;</a></h3>
+<p>Als je in Proxmox een disk vergroot, zal deze door de OS nog niet volledig gebruikt kunnen worden.
+Daarom moeten we, na de vergroting in proxmox, deze alsnog met <a href="../tools/gparted.md">GParted</a> en via de CLI resizen zodat de volledige grootte herkend kan worden door het OS.</p>
+<h4 id="1-virtuele-machine-uitzetten">1. Virtuele machine uitzetten<a class="headerlink" href="#1-virtuele-machine-uitzetten" title="Permanent link">&para;</a></h4>
+<p>Schakel de virtuele machine eerst helemaal uit.</p>
+<h4 id="2-harde-schijf-resizen">2. Harde schijf resizen<a class="headerlink" href="#2-harde-schijf-resizen" title="Permanent link">&para;</a></h4>
+<p>Nu kan je de harde schijf vergroten.</p>
+<p><code>Proxmox</code> &gt; <code>Hardware Settings</code></p>
+<h4 id="3-gparted-downloaden-en-opstarten">3. GParted downloaden en opstarten<a class="headerlink" href="#3-gparted-downloaden-en-opstarten" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Download laatste Gparted ISO van de <a href="https://gparted.org/download.php">GParted download website</a></li>
+<li>Importeer de GParted ISO file in Proxmox</li>
+<li>Start de VM en laat deze starten vanaf de ISO. (Duw snel op <span class="keys"><kbd class="key-escape">Esc</kbd></span>)</li>
+</ol>
+<h4 id="4-partitie-resizen-met-gparted">4. Partitie resizen met GParted<a class="headerlink" href="#4-partitie-resizen-met-gparted" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Zoek de correcte partitie</li>
+<li>Resize de partitie (<span class="keys"><kbd class="key-right-button">Right Button</kbd></span> -&gt; resize)</li>
+<li>Duw opt vingske 🙂</li>
+</ol>
+<h4 id="5-cli-resizing">5. CLI resizing<a class="headerlink" href="#5-cli-resizing" title="Permanent link">&para;</a></h4>
+<p>Check de huidige disksize met commando:</p>
+<pre><code class="language-bash">df -h
+</code></pre>
+<p>Laat Ubuntu de volledige disk gebruiken:</p>
+<pre><code class="language-bash">sudo /sbin/lvresize -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+</code></pre>
+<p>Gebruik resize2fs op deze disk</p>
+<pre><code class="language-bash">sudo /sbin/resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+</code></pre>
+<p>Hierna kan je nogmaals de disksize bekijken.</p>
+<pre><code class="language-bash">df -h
+</code></pre>
+<p>Als er geen fouten opgetreden zijn, heb je nu net de harde schijf vergroot!</p>
+<h3 id="snapshot">Snapshot<a class="headerlink" href="#snapshot" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># List all snapshots.
+qm listsnapshot &lt;vmid&gt;
+
+# Snapshot a VM
+qm snapshot &lt;vmid&gt; &lt;snapname&gt;
+
+# Delete a snapshot.
+qm delsnapshot &lt;vmid&gt; &lt;snapname&gt;
+
+# Rollback a snapshot
+qm rollback &lt;vmid&gt; &lt;snapname&gt;
+
+# Open a terminal using a serial device
+# (The VM need to have a serial device configured, for example serial0: socket)
+qm terminal &lt;vmid&gt; [OPTIONS]
+
+# Proxy VM VNC traffic to stdin/stdout
+qm vncproxy &lt;vmid&gt;
+</code></pre>
+<h3 id="misc">Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Execute Qemu Guest Agent commands.
+qm guest cmd &lt;vmid&gt; &lt;command&gt;
+
+# Executes the given command via the guest agent
+qm guest exec &lt;vmid&gt; [&lt;extra-args&gt;] [OPTIONS]
+
+# Gets the status of the given pid started by the guest-agent
+qm guest exec-status &lt;vmid&gt; &lt;pid&gt;
+
+# Sets the password for the given user to the given password
+qm guest passwd &lt;vmid&gt; &lt;username&gt; [OPTIONS]
+</code></pre>
+<h3 id="pv-vg-lv-management">PV, VG, LV Management<a class="headerlink" href="#pv-vg-lv-management" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Create a PV
+pvcreate &lt;disk-device-name&gt;
+
+# Remove a PV
+pvremove &lt;disk-device-name&gt;
+
+# List all PVs
+pvs
+
+# Create a VG
+vgcreate &lt;vg-name&gt; &lt;disk-device-name&gt;
+
+# Remove a VG
+vgremove &lt;vg-name&gt;
+
+# List all VGs
+vgs
+
+# Create a LV
+lvcreate -L &lt;lv-size&gt; -n &lt;lv-name&gt; &lt;vg-name&gt;
+
+# Remove a LV
+lvremove &lt;vg-name&gt;/&lt;lv-name&gt;
+
+# List all LVs
+lvs
+</code></pre>
+<h3 id="storage-management">Storage Management<a class="headerlink" href="#storage-management" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Create a new storage.
+pvesm add &lt;type&gt; &lt;storage&gt; [OPTIONS]
+
+# Allocate disk images.
+pvesm alloc &lt;storage&gt; &lt;vmid&gt; &lt;filename&gt; &lt;size&gt; [OPTIONS]
+
+# Delete volume
+pvesm free &lt;volume&gt; [OPTIONS]
+
+# Delete storage configuration.
+pvesm remove &lt;storage&gt;
+
+# List storage content.
+pvesm list &lt;storage&gt; [OPTIONS]
+
+# An alias for pvesm scan lvm.
+pvesm lvmscan
+
+# An alias for pvesm scan lvmthin.
+pvesm lvmthinscan
+
+# List local LVM volume groups.
+pvesm scan lvm
+
+# List local LVM Thin Pools.
+pvesm scan lvmthin &lt;vg&gt;
+
+# Get status for all datastores.
+pvesm status [OPTIONS]
+</code></pre>
+<h3 id="template-management">Template Management<a class="headerlink" href="#template-management" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># list all templates
+pveam available
+
+# list all templates
+pveam list &lt;storage&gt;
+
+# Download appliance templates
+pveam download &lt;storage&gt; &lt;template&gt;
+
+# Remove a template.
+pveam remove &lt;template-path&gt;
+
+# Update Container Template Database.
+pveam update
+</code></pre>
+<h2 id="certificate-management">Certificate Management<a class="headerlink" href="#certificate-management" title="Permanent link">&para;</a></h2>
+<p>See the <a href="proxmox-certificate-management.md">Proxmox Certificate Management</a> cheat sheet.</p>
+<h2 id="container-management">Container Management<a class="headerlink" href="#container-management" title="Permanent link">&para;</a></h2>
+<h3 id="basic_1">Basic<a class="headerlink" href="#basic_1" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># List containers
+pct list
+
+# Create or restore a container.
+pct create &lt;vmid&gt; &lt;ostemplate&gt; [OPTIONS]
+
+# Start the container.
+pct start &lt;vmid&gt; [OPTIONS]
+
+# Create a container clone/copy
+pct clone &lt;vmid&gt; &lt;newid&gt; [OPTIONS]
+
+# Suspend the container. This is experimental.
+pct suspend &lt;vmid&gt;
+
+# Resume the container.
+pct resume &lt;vmid&gt;
+
+# Stop the container.
+# This will abruptly stop all processes running in the container.
+pct stop &lt;vmid&gt; [OPTIONS]
+
+# Shutdown the container.
+# This will trigger a clean shutdown of the container, see lxc-stop(1) for details.
+pct shutdown &lt;vmid&gt; [OPTIONS]
+
+# Destroy the container (also delete all uses files).
+pct destroy &lt;vmid&gt; [OPTIONS]
+
+# Show CT status.
+pct status &lt;vmid&gt; [OPTIONS]
+
+# Migrate the container to another node. Creates a new migration task.
+pct migrate &lt;vmid&gt; &lt;target&gt; [OPTIONS]
+
+# Get container configuration.
+pct config &lt;vmid&gt; [OPTIONS]
+
+# Print the list of assigned CPU sets.
+pct cpusets
+
+# Get container configuration, including pending changes.
+pct pending &lt;vmid&gt;
+
+# Reboot the container by shutting it down, and starting it again. Applies pending changes.
+pct reboot &lt;vmid&gt; [OPTIONS]
+
+# Create or restore a container.
+pct restore &lt;vmid&gt; &lt;ostemplate&gt; [OPTIONS]
+
+# Set container options.
+pct set &lt;vmid&gt; [OPTIONS]
+
+# Create a Template.
+pct template &lt;vmid&gt;
+
+# Unlock the VM.
+pct unlock &lt;vmid&gt;
+</code></pre>
+<h3 id="container-disks">Container Disks<a class="headerlink" href="#container-disks" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Get the container?s current disk usage.
+pct df &lt;vmid&gt;
+
+# Run a filesystem check (fsck) on a container volume.
+pct fsck &lt;vmid&gt; [OPTIONS]
+
+# Run fstrim on a chosen CT and its mountpoints.
+pct fstrim &lt;vmid&gt; [OPTIONS]
+
+# Mount the container?s filesystem on the host.
+# This will hold a lock on the container and is meant for emergency maintenance only
+# as it will prevent further operations on the container other than start and stop.
+pct mount &lt;vmid&gt;
+
+# Move a rootfs-/mp-volume to a different storage or to a different container.
+pct move-volume &lt;vmid&gt; &lt;volume&gt; [&lt;storage&gt;] [&lt;target-vmid&gt;] [&lt;target-volume&gt;] [OPTIONS]
+
+# Unmount the container?s filesystem.
+pct unmount &lt;vmid&gt;
+
+# Resize a container mount point.
+pct resize &lt;vmid&gt; &lt;disk&gt; &lt;size&gt; [OPTIONS]
+
+# Rescan all storages and update disk sizes and unused disk images.
+pct rescan [OPTIONS]
+
+# Connect to container
+pct enter &lt;vmid&gt;
+
+# Launch a console for the specified container.
+pct console &lt;vmid&gt; [OPTIONS]
+
+# Launch a shell for the specified container.
+pct enter &lt;vmid&gt;
+
+# Launch a command inside the specified container.
+pct exec &lt;vmid&gt; [&lt;extra-args&gt;]
+
+# Copy a file from the container to the local system.
+pct pull &lt;vmid&gt; &lt;path&gt; &lt;destination&gt; [OPTIONS]
+
+# Copy a local file to the container.
+pct push &lt;vmid&gt; &lt;file&gt; &lt;destination&gt; [OPTIONS]
+</code></pre>
+<h3 id="container-snapshot">Container Snapshot<a class="headerlink" href="#container-snapshot" title="Permanent link">&para;</a></h3>
+<pre><code class="language-shell"># Snapshot a container.
+pct snapshot &lt;vmid&gt; &lt;snapname&gt; [OPTIONS]
+
+# List all snapshots.
+pct listsnapshot &lt;vmid&gt;
+
+# Rollback LXC state to specified snapshot.
+pct rollback &lt;vmid&gt; &lt;snapname&gt; [OPTIONS]
+
+# Delete a LXC snapshot.
+pct delsnapshot &lt;vmid&gt; &lt;snapname&gt; [OPTIONS]
+</code></pre>
+<h2 id="web-gui_1">Web GUI<a class="headerlink" href="#web-gui_1" title="Permanent link">&para;</a></h2>
+<pre><code class="language-shell"># Restart web GUI
+service pveproxy restart
+</code></pre>
+<h2 id="resize-disk_1">Resize Disk<a class="headerlink" href="#resize-disk_1" title="Permanent link">&para;</a></h2>
+<h3 id="increase-disk-size">Increase disk size<a class="headerlink" href="#increase-disk-size" title="Permanent link">&para;</a></h3>
+<p>Increase disk size in the GUI or with the following command</p>
+<pre><code class="language-shell">qm resize 100 virtio0 +5G
+</code></pre>
+<h3 id="decrease-disk-size">Decrease disk size<a class="headerlink" href="#decrease-disk-size" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Before decreasing disk sizes in Proxmox, you should take a backup!</p>
+</blockquote>
+<ol>
+<li>Convert qcow2 to raw</li>
+</ol>
+<pre><code class="language-shell">qemu-img convert vm-100.qcow2 vm-100.raw
+</code></pre>
+<ol>
+<li>Shrink the disk</li>
+</ol>
+<pre><code class="language-shell">qemu-img resize -f raw vm-100.raw 10G
+</code></pre>
+<ol>
+<li>Convert back to qcow2#</li>
+</ol>
+<pre><code class="language-shell">qemu-img convert -p -O qcow2 vm-100.raw vm-100.qcow2
+</code></pre>
+<h2 id="further-information">Further information<a class="headerlink" href="#further-information" title="Permanent link">&para;</a></h2>
+<p>More examples and tutorials regarding Proxmox can be found in the link list below:</p>
+<ul>
+<li>Ansible playbook that automates Linux VM updates running on Proxmox (including snapshots): <a href="https://github.com/thedatabaseme/update_proxmox_vm">TheDatabaseMe - update_proxmox_vm</a></li>
+<li>Manage Proxmox VM templates with Packer: <a href="https://thedatabaseme.de/2022/10/16/what-a-golden-boy-use-packer-to-build-proxmox-images/">Use Packer to build Proxmox images</a></li>
+</ul>
+<h2 id="plex-on-proxmox">Plex on Proxmox<a class="headerlink" href="#plex-on-proxmox" title="Permanent link">&para;</a></h2>
+<p>Bekijk deze <a href="../misc/plex_proxmox.md">note</a> voor meer informatie om Plex via LXC te installeren op Proxmox</p>
+<h2 id="post-installatie-script">Post-installatie script<a class="headerlink" href="#post-installatie-script" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/extremeshok/xshok-proxmox">script</a></p>
+<h2 id="proxmox-ve-helper-scripts">Proxmox VE Helper Scripts<a class="headerlink" href="#proxmox-ve-helper-scripts" title="Permanent link">&para;</a></h2>
+<p>Bekijk <a href="https://tteck.github.io/Proxmox/">deze website</a> voor enkele interessante scripts.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Terug naar boven
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 Cowadar
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/cowadar" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/channel/UCnDHClzKX1bgx8h2JW_Oa_A" target="_blank" rel="noopener" title="Youtube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+
+
+
+<h4>Cookie consent</h4>
+<p>We gebruiken cookies om ook uw herhaalde bezoeken en voorkeuren te herkennen om de effectiviteit van onze documentatie te meten en of gebruikers vinden waarnaar ze op zoek zijn. Met uw toestemming helpt u ons om onze documentatie beter te maken.
+</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+      
+      
+        
+        
+      
+      <li class="task-list-item">
+        <label class="task-list-control">
+          <input type="checkbox" name="analytics" checked>
+          <span class="task-list-indicator"></span>
+          Google
+        </label>
+      </li>
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Accepteren</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Instellingen</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "content.code.copy", "search.suggest", "search.highlight", "header.autohide"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Gekopieerd naar klembord", "clipboard.copy": "Kopi\u00ebren naar klembord", "search.result.more.one": "1 extra overeenkomst op deze pagina", "search.result.more.other": "# extra overeenkomsten op deze pagina", "search.result.none": "Geen overeenkomende documenten", "search.result.one": "1 overeenkomende document", "search.result.other": "# overeenkomende documenten", "search.result.placeholder": "Typ om te beginnen met zoeken", "search.result.term.missing": "Ontbreekt", "select.version": "Selecteer versie"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
