@@ -15,14 +15,16 @@ jobs:
     name: Build documentation
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
       - name: Set up Python runtime
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -46,4 +48,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           mkdocs gh-deploy --force
-          mkdocs --version
